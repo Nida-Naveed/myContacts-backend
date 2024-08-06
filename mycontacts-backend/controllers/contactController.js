@@ -3,7 +3,7 @@
 //@access public
 //acces is set to 'private' when authenticating
 
-const getContacts =(req,res)=>{
+const getContacts = async (req,res)=>{
     res.status(200).json({message: "Get all contacts."});
 }
 //@desc Create New contact
@@ -13,13 +13,14 @@ const getContacts =(req,res)=>{
 
 //body parser to use it else it shows "undefined" : use :"app.use(express.json());"
 
-const createContact =(req,res)=>{
+const createContact = async (req,res)=>{
     console.log("the req body is", req.body);
     const {name, email,phone} =req.body;
     //error handling
     if(!name || !email || !phone){
+        res.status(400);
         //status 400 is bad request
-        return res.status(400).json({message: "Please enter all fields."});
+        throw new Error ("All fields are MANDATORY!");
     }
     res.status(201).json({message: "Create contact."});
 }
@@ -29,7 +30,7 @@ const createContact =(req,res)=>{
 //@access public
 //acces is set to 'private' when authenticating
 
-const getContact =(req,res)=>{
+const getContact = async (req,res)=>{
     res.status(201).json({message: `Get a contact for ${req.params.id}.`});
 }
 
@@ -38,10 +39,10 @@ const getContact =(req,res)=>{
 //@access public
 //acces is set to 'private' when authenticating
 
-const updateContact =(req,res)=>{
+const updateContact = async (req,res)=>{
     res.status(201).json({message: "Update contact."});
 }
-const deleteContact = (req,res)=>{
+const deleteContact =  async (req,res)=>{
     res.status(200).json({message:`Delete Contact for ${req.params.id}`  });
 }
 module.exports = {getContacts, createContact, updateContact, getContact , deleteContact};
